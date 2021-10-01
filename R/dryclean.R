@@ -234,14 +234,14 @@ If this is not the correct build, please provide a GRange object delineating for
 
     message(paste0(nrow(samp.final), " files present"))
     
-    mat.n = pbmclapply(samp.final[, sample], function(nm){
+    mat.n = lapply(samp.final[, sample], function(nm){
         this.cov = tryCatch(readRDS(samp.final[nm, normal_cov]), error = function(e) NULL)
         chr.prefixed = any(grepl('^chr', levels(seqnames(this.cov))))
         if (!is.null(this.cov)){
             #this.cov = gr.nochr(this.cov) # make sure there is not chr prefix
-            all.chr = c(as.character(1:22), "X")
+            all.chr = c(as.character(1:22), "X", "Y")
             if (chr.prefixed) {
-                all.chr = paste0('chr', c(1:22,'X'))
+                all.chr = paste0('chr', c(1:22,'X','Y'))
             }
             ##all.chr = names(which(seqlengths(this.cov) > 5e6))
             this.cov = this.cov %Q% (seqnames %in% all.chr)
@@ -272,7 +272,7 @@ If this is not the correct build, please provide a GRange object delineating for
                 return(reads)
             } 
         } 
-    }, mc.cores = num.cores)
+    })
 
     gc()
 
