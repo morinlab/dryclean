@@ -239,9 +239,9 @@ If this is not the correct build, please provide a GRange object delineating for
         chr.prefixed = any(grepl('^chr', levels(seqnames(this.cov))))
         if (!is.null(this.cov)){
             #this.cov = gr.nochr(this.cov) # make sure there is not chr prefix
-            all.chr = c(as.character(1:22), "X", "Y")
+            all.chr = c(as.character(1:22), "X")
             if (chr.prefixed) {
-                all.chr = paste0('chr', c(1:22,'X','Y'))
+                all.chr = paste0('chr', c(1:22,'X'))
             }
             ##all.chr = names(which(seqlengths(this.cov) > 5e6))
             this.cov = this.cov %Q% (seqnames %in% all.chr)
