@@ -234,7 +234,7 @@ If this is not the correct build, please provide a GRange object delineating for
 
     message(paste0(nrow(samp.final), " files present"))
     
-    mat.n = lapply(samp.final[, sample], function(nm){
+    mat.n = mclapply(samp.final[, sample], function(nm){
         this.cov = tryCatch(readRDS(samp.final[nm, normal_cov]), error = function(e) NULL)
         chr.prefixed = any(grepl('^chr', levels(seqnames(this.cov))))
         if (!is.null(this.cov)){
@@ -272,7 +272,7 @@ If this is not the correct build, please provide a GRange object delineating for
                 return(reads)
             } 
         } 
-    })
+    }, mc.cores = num.cores)
 
     gc()
 
