@@ -392,6 +392,13 @@ identify_germline <- function(normal.table.path = NA, signal.thresh = 0.5, pct.t
     }
     
     template = readRDS(normal.table[1, normal_cov])
+
+    if (all(grepl('^chr', as.character(seqnames(template))))) {
+       template <- template %Q% (seqnames %in% paste0('chr', c(1:22,'X')))
+    } else {
+       template <- template %Q% (seqnames %in% c(1:22, 'X'))
+    }
+
     values(template) <- NULL
     template$germline.status <- mat.bind.t$germline.status
 
